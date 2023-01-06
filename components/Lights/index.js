@@ -1,4 +1,7 @@
+import { useAtom } from "jotai";
 import styled from "styled-components";
+
+import { lightsAtom } from "../../store/atoms";
 import Light from "../Light";
 
 const StyledLights = styled.ul`
@@ -12,32 +15,21 @@ const StyledLights = styled.ul`
 `;
 
 export default function Lights() {
+  // Use the atom to get the global state of the lights
+  const [lights] = useAtom(lightsAtom);
+
   return (
     <StyledLights>
-      <li>
-        <Light name="Living Room" />
-      </li>
-      <li>
-        <Light name="Kitchen" />
-      </li>
-      <li>
-        <Light name="Bedroom" />
-      </li>
-      <li>
-        <Light name="Bathroom" />
-      </li>
-      <li>
-        <Light name="Garage" />
-      </li>
-      <li>
-        <Light name="Porch" />
-      </li>
-      <li>
-        <Light name="Garden" />
-      </li>
-      <li>
-        <Light name="Office" />
-      </li>
+      {lights.map(light => {
+        // Pass the entire light information int each light
+        // This allows us to add additional information to our lights without
+        // ever having to change the code here.
+        return (
+          <li key={light.id}>
+            <Light light={light} />
+          </li>
+        );
+      })}
     </StyledLights>
   );
 }

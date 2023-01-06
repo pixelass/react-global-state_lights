@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Button from "../Button";
+import { useAtom } from "jotai";
+import { lightsAtom } from "../../store/atoms";
 
 const StyledQuickActions = styled.div`
   display: flex;
@@ -8,12 +10,20 @@ const StyledQuickActions = styled.div`
 `;
 
 export default function QuickActions() {
+  const [lights, setLights] = useAtom(lightsAtom);
+
+
   return (
     <StyledQuickActions>
       <Button
         type="button"
         onClick={() => {
-          console.log("Turn all lights off");
+          // Map all lights
+          setLights(lights.map(currentLight => {
+            // Turn all lights off (explicit)
+            return {...currentLight, isOn: false}
+
+          }))
         }}
       >
         Turn all lights off
@@ -21,7 +31,12 @@ export default function QuickActions() {
       <Button
         type="button"
         onClick={() => {
-          console.log("Turn all lights on");
+          // Map all lights
+          setLights(lights.map(currentLight => {
+            // Turn all lights on (explicit)
+            return {...currentLight, isOn: true}
+
+          }))
         }}
       >
         Turn all lights on
